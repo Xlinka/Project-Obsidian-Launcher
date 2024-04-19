@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
-    <None Remove="Assets\Neos+.ico" />
+    <None Remove="Assets\Obsidian.ico" />
   </ItemGroup>
 
   <ItemGroup>

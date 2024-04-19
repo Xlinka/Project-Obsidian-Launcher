@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace NeosPlusLauncher.ViewModels
+namespace ObsidianLauncher.ViewModels
 {
-    public static class NeosPathHelper
+    public static class ObsdiianPathHelper
     {
-        public static string[] GetNeosPaths()
+        public static string[] GetObsidianPath()
         {
             string[] defaultPaths =
             {

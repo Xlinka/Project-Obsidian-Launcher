@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
+using ObsidianLauncher;
 using ReactiveUI;
 using System;
 

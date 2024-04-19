@@ -26,7 +26,7 @@ namespace ObsidianLauncher.ViewModels
 
         public static async Task<DownloadResult> DownloadAndInstallObsidian(string ObsidianPath, string ObsidianDirectory)
         {
-            string ObsidianDirectory = Path.Combine(ObsidianPath, "Libraries", "Obsidian");
+            ObsidianDirectory = Path.Combine(ObsidianPath, "Libraries", "Obsidian");
             Directory.CreateDirectory(ObsidianDirectory);
             string versionFilePath = Path.Combine(ObsidianDirectory, "version.txt");
 
