@@ -39,7 +39,7 @@ namespace ObsidianLauncher.ViewModels
             InitializeControls();
 
             InstallCommand = ReactiveCommand.CreateFromTask(ExecuteInstall);
-            LaunchCommand = ReactiveCommand.Create(LaunchNeosPlus);
+            LaunchCommand = ReactiveCommand.Create(LaunchProjectObsidian);
         }
 
         private void InitializeControls()
@@ -54,36 +54,36 @@ namespace ObsidianLauncher.ViewModels
                 InstallEnabled = false;
                 StatusText = "Checking for updates...";
 
-                string[] neosPaths = ObsdiianPathHelper.GetObsidianPath();
-                string neosPath = null;
+                string[] projectObsidianPaths = ObsdiianPathHelper.GetObsidianPath();
+                string projectObsidianPath = null;
 
-                if (neosPaths.Length > 0)
+                if (projectObsidianPaths.Length > 0)
                 {
-                    neosPath = neosPaths[0];
+                    projectObsidianPath = projectObsidianPaths[0];
                 }
                 else
                 {   //openfolderdialog is obsolete replace it soon.
-                    var dialog = new OpenFolderDialog { Title = "Select Resonite Directory", Directory = "." };
+                    var dialog = new OpenFolderDialog { Title = "Select ProjectObsidian Directory", Directory = "." };
                     var result = await dialog.ShowAsync(mainWindow);
 
                     if (result == null)
                     {
-                        StatusText = "No Resonite directory selected.";
+                        StatusText = "No ProjectObsidian directory selected.";
                         InstallEnabled = true;
                         return;
                     }
 
-                    neosPath = result;
+                    projectObsidianPath = result;
 
                     // Save the custom directory to the configuration
                     Config config = Config.LoadConfig();
-                    config.CustomInstallDir = neosPath;
+                    config.CustomInstallDir = projectObsidianPath;
                     config.SaveConfig();
                 }
 
-                string neosPlusDirectory = Path.Combine(neosPath, "Libraries", "Obsidian");
+                string projectObsidianPlusDirectory = Path.Combine(projectObsidianPath, "Libraries", "Obsidian");
 
-                bool downloadSuccess = await DownloadNeosPlus(neosPath, neosPlusDirectory);
+                bool downloadSuccess = await DownloadProjectObsidianPlus(projectObsidianPath, projectObsidianPlusDirectory);
 
                 if (!downloadSuccess)
                 {
@@ -100,14 +100,14 @@ namespace ObsidianLauncher.ViewModels
             }
         }
 
-        private async Task<bool> DownloadNeosPlus(string neosPath, string neosPlusDirectory)
+        private async Task<bool> DownloadProjectObsidianPlus(string projectObsidianPath, string projectObsidianPlusDirectory)
         {
             try
             {
                 StatusText = "Downloading Obsidian...";
                 InstallEnabled = false;
-                
-                DownloadResult res = await Download.DownloadAndInstallObsidian(neosPath, neosPlusDirectory);
+
+                DownloadResult res = await Download.DownloadAndInstallObsidian(projectObsidianPath, projectObsidianPlusDirectory);
                 StatusText = res.Message;
 
 
@@ -121,29 +121,29 @@ namespace ObsidianLauncher.ViewModels
             }
         }
 
-        private void LaunchNeosPlus()
+        private void LaunchProjectObsidian()
         {
-            string[] neosPaths = ObsdiianPathHelper.GetObsidianPath();
+            string[] projectObsidianPaths = ObsdiianPathHelper.GetObsidianPath();
 
-            if (neosPaths.Length == 0)
+            if (projectObsidianPaths.Length == 0)
             {
-                StatusText = "No Resonite directory found.";
+                StatusText = "No ProjectObsidian directory found.";
                 return;
             }
 
-            var path = neosPaths[0];
+            var path = projectObsidianPaths[0];
 
-            string neosPlusDirectory = Path.Combine(path, "Libraries", "Obsidian");
+            string projectObsidianPlusDirectory = Path.Combine(path, "Libraries", "Obsidian");
 
-            LaunchNeosPlus(path, neosPlusDirectory);
+            LaunchProjectObsidian(path, projectObsidianPlusDirectory);
 
             StatusText = "Done";
         }
-        private void LaunchNeosPlus(string ObsidianPath, string neosPlusDirectory)
+        private void LaunchProjectObsidian(string ObsidianPath, string projectObsidianPlusDirectory)
         {
-            string neosExePath = Path.Combine(ObsidianPath, "Obsidian.exe");
-            string neosPlusDllPath = Path.Combine(neosPlusDirectory, "Obsidian.dll");
-            string arguments = $"-LoadAssembly \"{neosPlusDllPath}\"";
+            string projectObsidianExePath = Path.Combine(ObsidianPath, "Resonite.exe");
+            string projectObsidianPlusDllPath = Path.Combine(projectObsidianPlusDirectory, "Project-Obsidian.dll");
+            string arguments = $"-LoadAssembly \"{projectObsidianPlusDllPath}\"";
 
             // Get the value of the LauncherArgumentsTextBox and add it as an argument
             string launcherArguments = LauncherArguments.Trim();
@@ -152,7 +152,7 @@ namespace ObsidianLauncher.ViewModels
                 arguments += $" {launcherArguments}";
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(neosExePath, arguments);
+            ProcessStartInfo startInfo = new ProcessStartInfo(projectObsidianExePath, arguments);
             startInfo.WorkingDirectory = ObsidianPath;
 
             try
